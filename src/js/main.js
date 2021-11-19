@@ -333,14 +333,16 @@ handleInput = (e) => {
 };
 
 function focusInput() {
-    if (
-        (typeof window.getSelection == "undefined" && typeof document.selection == "undefined") ||
-        (document.selection != "undefined" && document.selection.createRange().text == "") ||
-        (window.getSelection != "undefined" && window.getSelection().toString() == "")
-    ) {
-        document.getElementById("mainInput").focus();
-        return false;
-    }
+    // if (
+    //     (typeof window.getSelection == "undefined" && typeof document.selection == "undefined") ||
+    //     (document.selection != "undefined" && document.selection.createRange().text == "") ||
+    //     (window.getSelection != "undefined" && window.getSelection().toString() == "")
+    // ) {
+    //     document.getElementById("mainInput").focus();
+    //     return false;
+    // }
+    document.getElementById("mainInput").focus();
+    return false;
 }
 
 write("PAX CLI [version 1.0.0.1]\n(c) Starlight Interactive. All rights reserved.\n", main);
