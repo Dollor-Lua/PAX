@@ -56,3 +56,7 @@ ipcMain.on("maximize", function () {
     }
     maximized = !maximized;
 });
+
+ipcMain.on("getpath", function(e, p) {
+    e.reply("getpath-reply", app.getPath(p))
+})

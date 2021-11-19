@@ -5,6 +5,8 @@ var currentdir = "~/";
 
 var handleInput;
 
+const config = window.pax_v;
+
 /* bool */
 function setup(mdiv) {
     if (!mdiv) return false;
@@ -94,9 +96,11 @@ function write(output, mdiv) {
     for (var i = 0; i < output.length; i++) {
         if (lines.length != cline + 1) {
             const ee = document.createElement("div");
-            ee.style.width = "100%";
+            ee.style.width = "fit-content";
             ee.style.height = "18px";
             ee.style.fontSize = "15px";
+            ee.style.whiteSpace = "nowrap";
+
             lines[cline] = ee;
         }
         const mstr = output[i];
@@ -197,11 +201,33 @@ function write(output, mdiv) {
                     bgcolor = "#fff";
                     break;
                 }
-
                 default: {
+                    if (ttl.startsWith("::hexfg(")) {
+                        const a = ttl.split("(")[1].split(")")[0];
+                        if (a.length == 7 && a.startsWith("#")) {
+                            color = a;
+                        } else {
+                            esc(true, "Error: ", "#ff0000", "#00000000", "bold");
+                            esc(true, "Unknown hex format for `hexfg`", "#fff", "#00000000", "normal");
+                            writeNewline();
+                        }
+                        break;
+                    } else if (ttl.startsWith("::hexbg(")) {
+                        const a = ttl.split("(")[1].split(")")[0];
+                        if (a.length == 7 && a.startsWith("#")) {
+                            bgcolor = a;
+                        } else {
+                            esc(true, "Error: ", "#ff0000", "#00000000", "bold");
+                            esc(true, "Unknown hex format for `hexfg`", "#fff", "#00000000", "normal");
+                            writeNewline();
+                        }
+                        break;
+                    }
                     esc(true, "Error: ", "#ff0000", "#00000000", "bold");
                     esc(true, "Unknown escape sequence", "#fff", "#00000000", "normal");
                     writeNewline();
+
+                    break;
                 }
             }
 
@@ -322,6 +348,34 @@ handleInput = (e) => {
                 write("\x1b[33mWARN: \x1b[0m`cd` has not been setup yet.", main);
                 break;
             }
+            case "play": {
+                write("\x1b[33mWARN: \x1b[0m`play` has not been setup yet.", main);
+                break;
+            }
+            case "pax": {
+                write(`\x1b::hexfg(#ff00ff)m\x1b[1mPAX\x1b[0m v${config.version} [Build-${config.build}-A]\nThe PAX Command line\n(c) \x1b::hexfg(#ffff00)mStarlight Interactive\x1b[0m. All rights reserved.\n\nRun those commands, yeah boi`, main)
+                break;
+            }
+            case "cls": {
+                main.innerHTML = '';
+                write(`\x1b::hexfg(#ff00ff)m\x1b[1mPAX\x1b[0m CLI [version ${config.version}]\n(c) \x1b::hexfg(#ffff00)mStarlight Interactive\x1b[0m. All rights reserved.\n`, main);
+                break;
+            }
+            case "ls": {
+                if (currentdir == "~/") {
+                    write("\x1b[31m\x1b[1mError: \x1b[0mThe home directory cannot be read.\n    : HEAD is an invalid directory\n     : HEAD is a pseudo directory\n      ; Use `trt` to open HEAD's true directory.", main);
+                    break;
+                }
+                write("\x1b[33mWARN: \x1b[0m`ls` has not been setup yet.", main);
+                break;
+            }
+            case "trt": {
+                if (currentdir == "~/") {
+                    const newdir = window.pax.getpath("home");
+                    write(`\x1b[34mNavigated \x1b[0m${newdir}`, main);
+                }
+                break
+            }
             default: {
                 write(`\x1b[31m\x1b[1mError: \x1b[0mUnknown command \`${args[0]}\` (parameter 0)`, main);
                 break;
@@ -345,5 +399,5 @@ function focusInput() {
     return false;
 }
 
-write("PAX CLI [version 1.0.0.1]\n(c) Starlight Interactive. All rights reserved.\n", main);
+write(`\x1b::hexfg(#ff00ff)m\x1b[1mPAX\x1b[0m CLI [version ${config.version}]\n(c) \x1b::hexfg(#ffff00)mStarlight Interactive\x1b[0m. All rights reserved.\n`, main);
 setup(main);

@@ -5,4 +5,5 @@ contextBridge.exposeInMainWorld("pax", {
     minimize: () => ipcRenderer.send("minimize"),
     maximize: () => ipcRenderer.send("maximize"),
     execute: (exec) => ipcRenderer.send("execute", exec),
+    getpath: (path) => ipcRenderer.send("getpath", path)
 });
