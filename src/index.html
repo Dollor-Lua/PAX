@@ -13,6 +13,12 @@
         </toolbar>
         <div id="main">
             <!-- main area for the console -->
+            <span id="mainText" style="width: 0px;position: relative; display: block;">
+                <rtext id="rtxt" style="padding-left: 5px; display: block; background-color: white; color: black; width: fit-content;">~/&nbsp;
+                    <span style="transform: rotateZ(45deg) translateX(-50%); left: calc(100% - 2px); display: block; position: absolute; width: 14px; height: 15px; top: 8px; background-color: inherit; z-index: 5;"></span>
+                </rtext> 
+                <input type="text" id="mainInput" style="left: calc(100% + 15px); position: absolute; outline: none; border: none; background-color: #11111100; height: 20px; font-size: 15px; width: 100%; color: #fff; font-family: 'Roboto Mono', monospace;" autofocus />
+            </span>
         </div>
     </body>
 </html>

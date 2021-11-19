@@ -13,6 +13,7 @@ const createWindow = () => {
         frame: false,
         webPreferences: {
             preload: path.join(__dirname, "js/pre.js"),
+            contextIsolation: true,
         },
     });
 

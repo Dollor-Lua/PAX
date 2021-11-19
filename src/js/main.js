@@ -1,8 +1,15 @@
 const main = document.getElementById("main");
 
 /* bool */
-function write(output, mdiv, arrows = true, abr = true) {
+function writeNewline(mdiv) {
     if (!mdiv) return false;
+    mdiv.appendChild(document.createElement("br"));
+    return true;
+}
+
+/* bool */
+function write(output, mdiv, arrows = true, abr = true) {
+    if (!mdiv || !output) return false;
 
     var current = "";
 
@@ -22,8 +29,10 @@ function write(output, mdiv, arrows = true, abr = true) {
             .join("");
     }
 
-    function esc(inc = false, same = false, txt = "\0", ccolor = "x", bcolor = "x", fw = "x") {
-        if (!same && abr) lines[cline].appendChild(document.createElement("br"));
+    function esc(inc, same, txt = "\0", ccolor = "x", bcolor = "x", fw = "x") {
+        if (!same && abr) {
+            lines[cline].appendChild(document.createElement("br"));
+        }
         const ne = document.createElement("div");
         ne.innerText = encodeWhiteSpaces((same || !arrows ? "" : "⇨ ") + (txt == "\0" ? current : txt));
 
@@ -52,7 +61,7 @@ function write(output, mdiv, arrows = true, abr = true) {
         }
         const mstr = output[i];
         if (mstr == "\x1b") {
-            if (current != "") esc();
+            if (current != "") esc(false, true);
             var ttl = "";
             var ttl1 = 0;
             for (var x = i + 1; x < output.length; x++) {
@@ -62,8 +71,6 @@ function write(output, mdiv, arrows = true, abr = true) {
             }
 
             i += ttl1;
-
-            console.log(ttl);
 
             switch (
                 ttl // lmao this is so long (stupid escapes)
@@ -174,7 +181,7 @@ function write(output, mdiv, arrows = true, abr = true) {
         ee.style.fontSize = "15px";
         lines[cline] = ee;
     }
-    esc();
+    esc(false, true);
 
     for (var i = 0; i < lines.length; i++) {
         mdiv.appendChild(lines[i]);
@@ -192,7 +199,7 @@ write("\x1b[34mBlue text!\x1b[0m with normal text after", main);
 write("\x1b[35mViolet text!\x1b[0m with normal text after", main);
 write("\x1b[36mCyan text!\x1b[0m with normal text after", main);
 write("\x1b[37mWhite text!\x1b[0m with normal text after", main);
-write("\n", main, false, false);
+writeNewline(main);
 write("\x1b[40m\x1b[37mBlack BG text!\x1b[0m with normal text after", main);
 write("\x1b[41mRed BG text!\x1b[0m with normal text after", main);
 write("\x1b[42m\x1b[30mGreen BG text!\x1b[0m with normal text after", main);
@@ -201,6 +208,6 @@ write("\x1b[44mBlue BG text!\x1b[0m with normal text after", main);
 write("\x1b[45mViolet BG text!\x1b[0m with normal text after", main);
 write("\x1b[46m\x1b[30mCyan BG text!\x1b[0m with normal text after", main);
 write("\x1b[47m\x1b[30mWhite BG text!\x1b[0m with normal text after", main);
-write("\n", main, false, false);
+writeNewline(main);
 write("\x1b[1mBold Text!\x1b[0m with normal text after", main);
 write("\x1b[2mLight Text!\x1b[0m with normal text after", main);

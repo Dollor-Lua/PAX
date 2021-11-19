@@ -53,6 +53,8 @@
     "@electron-forge/maker-rpm": "^6.0.0-beta.57",
     "@electron-forge/maker-squirrel": "^6.0.0-beta.57",
     "@electron-forge/maker-zip": "^6.0.0-beta.57",
-    "electron": "16.0.0"
+    "electron": "16.0.0",
+    "electron-forge": "^5.2.4",
+    "electron-prebuilt-compile": "8.2.0"
   }
 }
